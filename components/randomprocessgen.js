@@ -1,6 +1,6 @@
-export function generateProcess(){
+export function generateProcess(numProcesses = 5){
     return (
-        Array.from({length: 10}, (_, i) => generateRandomProcess(i + 1))
+        Array.from({length: numProcesses}, (_, i) => generateRandomProcess(i + 1))
     )
 }
 
