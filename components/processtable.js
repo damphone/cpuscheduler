@@ -1,16 +1,29 @@
+// processtable.js (Fixed)
 'use client';
 
 import React, { useState, useEffect } from "react";
 import { generateProcess } from "../components/randomprocessgen";
 
-export default function ProcessTable() {
+export default function ProcessTable({ onProcessesGenerated }) { // Ensure callback is used
     const [numProcesses, setNumProcesses] = useState(5);
     const [processes, setProcesses] = useState([]);
 
     // Generate processes whenever numProcesses changes
     useEffect(() => {
-        setProcesses(generateProcess(numProcesses));
+        if (numProcesses < 1) {
+            setNumProcesses(1);
+            return;
+        }
+        const newProcesses = generateProcess(numProcesses);
+        setProcesses(newProcesses);
+        onProcessesGenerated(newProcesses); // Pass data to parent
     }, [numProcesses]);
+
+    const handleGenerate = () => {
+        const newProcesses = generateProcess(numProcesses);
+        setProcesses(newProcesses);
+        onProcessesGenerated(newProcesses); // Ensure parent receives new processes
+    };
 
     return (
         <div className="p-4">
@@ -26,7 +39,7 @@ export default function ProcessTable() {
                 />
                 <button 
                     className="ml-3 px-4 py-2 bg-blue-500 text-white rounded"
-                    onClick={() => setProcesses(generateProcess(numProcesses))}
+                    onClick={handleGenerate}
                 >
                     Generate
                 </button>

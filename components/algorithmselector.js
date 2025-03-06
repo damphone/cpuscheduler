@@ -20,7 +20,7 @@ export default function AlgorithmSelector({ onRunSimulation }) {
             alert("Please select at least one scheduling algorithm.");
             return;
         }
-        //onRunSimulation(selectedAlgorithms, timeQuantum);
+        onRunSimulation(selectedAlgorithms, timeQuantum);
     };
 
     // Reset time quantum when "RR" is deselected
