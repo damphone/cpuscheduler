@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function AlgorithmSelector({ onRunSimulation }) {
     const algorithms = ["FIFO", "SJF", "STCF", "RR", "MLFQ"];
@@ -16,8 +16,19 @@ export default function AlgorithmSelector({ onRunSimulation }) {
     };
 
     const handleRun = () => {
-        onRunSimulation(selectedAlgorithms, timeQuantum);
+        if (selectedAlgorithms.length === 0) {
+            alert("Please select at least one scheduling algorithm.");
+            return;
+        }
+        //onRunSimulation(selectedAlgorithms, timeQuantum);
     };
+
+    // Reset time quantum when "RR" is deselected
+    useEffect(() => {
+        if (!selectedAlgorithms.includes("RR")) {
+            setTimeQuantum(2); // Reset to default
+        }
+    }, [selectedAlgorithms]);
 
     return (
         <div className="p-4">
@@ -45,7 +56,7 @@ export default function AlgorithmSelector({ onRunSimulation }) {
                         type="number"
                         min="1"
                         value={timeQuantum}
-                        onChange={(e) => setTimeQuantum(Number(e.target.value))}
+                        onChange={(e) => setTimeQuantum(Math.max(1, Number(e.target.value)))}
                         className="border p-2 rounded w-20"
                     />
                 </div>
