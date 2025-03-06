@@ -5,6 +5,10 @@ import { useState } from "react";
 import ProcessTable from "../../components/processtable";
 import AlgorithmSelector from "../../components/algorithmselector";
 import { fifoScheduler } from "../../algorithms/FIFO";
+import { sjfScheduler } from "../../algorithms/SJF";
+import { stcfScheduler } from "../../algorithms/STCF";
+import { rrScheduler } from "../../algorithms/RR";
+import { mlfqScheduler } from "../../algorithms/MLFQ";
 
 export default function Home() {
   const [processes, setProcesses] = useState([]);
@@ -19,6 +23,14 @@ export default function Home() {
       switch (algo) {
         case "FIFO":
           return fifoScheduler(processes);
+        case "SJF":
+          return sjfScheduler(processes);
+        case "STCF":
+          return stcfScheduler(processes);
+        case "RR":
+          return rrScheduler(processes, timeQuantum);
+        case "MLFQ":
+          return mlfqScheduler(processes);
         default:
           return [];
       }
