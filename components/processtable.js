@@ -16,7 +16,6 @@ export default function ProcessTable() {
 
     return(
         <div className="p-4">
-            <h2 className="text-xl font-bold mb-3">CPU Scheduling Process Generator</h2>
 
             {/* User Input for Number of Processes */}
             <div className="mb-3">
