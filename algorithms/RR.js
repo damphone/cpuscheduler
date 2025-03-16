@@ -24,6 +24,7 @@ export function rrScheduler(processes, timeQuantum){
                 completionTime: null,
                 turnaroundTime: null,
                 waitingTime: null,
+                responseTime: null,
             });
         } else {
             currentTime += process.burstTime;
@@ -33,6 +34,7 @@ export function rrScheduler(processes, timeQuantum){
                 completionTime: currentTime,
                 turnaroundTime: currentTime - process.arrivalTime,
                 waitingTime: currentTime - process.arrivalTime - process.burstTime,
+                responseTime: startTime - process.arrivalTime,
             });
         }
     }

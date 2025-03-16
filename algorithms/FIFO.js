@@ -9,6 +9,7 @@ export function fifoScheduler(processes) {
         let completionTime = startTime + process.burstTime;
         let turnaroundTime = completionTime - process.arrivalTime;
         let waitingTime = turnaroundTime - process.burstTime;
+        let responseTime = startTime - process.arrivalTime;
 
         schedule.push({
             ...process,
@@ -16,6 +17,7 @@ export function fifoScheduler(processes) {
             completionTime,
             turnaroundTime,
             waitingTime,
+            responseTime
         });
 
         currentTime = completionTime;

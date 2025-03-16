@@ -12,6 +12,7 @@ export function mlfqScheduler(processes) {
         let completionTime = startTime + process.burstTime;
         let turnaroundTime = completionTime - process.arrivalTime;
         let waitingTime = turnaroundTime - process.burstTime;
+        let responseTime = startTime - process.arrivalTime;
 
         if (process.burstTime <= 4) {
             queue1.push({
@@ -20,6 +21,7 @@ export function mlfqScheduler(processes) {
                 completionTime,
                 turnaroundTime,
                 waitingTime,
+                responseTime,
             });
         } else if (process.burstTime <= 8) {
             queue2.push({
@@ -28,6 +30,7 @@ export function mlfqScheduler(processes) {
                 completionTime,
                 turnaroundTime,
                 waitingTime,
+                responseTime,
             });
         } else {
             queue3.push({
@@ -36,6 +39,7 @@ export function mlfqScheduler(processes) {
                 completionTime,
                 turnaroundTime,
                 waitingTime,
+                responseTime,
             });
         }
 

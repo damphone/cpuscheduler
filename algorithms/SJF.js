@@ -19,6 +19,7 @@ export function sjfScheduler(processes){
         let completionTime = startTime + shortestProcess.burstTime;
         let turnaroundTime = completionTime - shortestProcess.arrivalTime;
         let waitingTime = turnaroundTime - shortestProcess.burstTime;
+        let responseTime = startTime - shortestProcess.arrivalTime;
 
         schedule.push({
             ...shortestProcess,
@@ -26,6 +27,7 @@ export function sjfScheduler(processes){
             completionTime,
             turnaroundTime,
             waitingTime,
+            responseTime,
         });
 
         currentTime = completionTime;
