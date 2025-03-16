@@ -71,12 +71,6 @@ export default function Home() {
         backgroundColor: "rgba(255, 99, 132, 0.6)",
         borderWidth: 1,
       },
-      {
-        label: "Avg Response Time",
-        data: labels.map(algo => results[algo].reduce((sum, p) => sum + p.responseTime, 0) / results[algo].length),
-        backgroundColor: "rgba(75, 192, 192, 0.6)",
-        borderWidth: 1,
-      }
     ];
   
     setChartData({ labels, datasets });
