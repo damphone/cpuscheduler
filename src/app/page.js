@@ -1,7 +1,6 @@
 'use client';
 
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ProcessTable from "../../components/processtable";
 import AlgorithmSelector from "../../components/algorithmselector";
 import { fifoScheduler } from "../../algorithms/FIFO";
@@ -9,10 +8,16 @@ import { sjfScheduler } from "../../algorithms/SJF";
 import { stcfScheduler } from "../../algorithms/STCF";
 import { rrScheduler } from "../../algorithms/RR";
 import { mlfqScheduler } from "../../algorithms/MLFQ";
+import { Bar } from "react-chartjs-2";
+import { Chart, registerables } from "chart.js";
+import { motion } from "framer-motion";
+
+Chart.register(...registerables);
 
 export default function Home() {
   const [processes, setProcesses] = useState([]);
   const [results, setResults] = useState([]);
+  const [chartData, setChartData] = useState({ labels: [], datasets: [] });
 
   const handleProcessesGenerated = (newProcesses) => {
     setProcesses(newProcesses);
@@ -36,7 +41,29 @@ export default function Home() {
       }
     });
     setResults(results);
+    animateChart(results);
   };
+
+  const animateChart = (results) => {
+    let labels = [];
+    let datasets = [];
+    let colors = ["rgba(54, 162, 235, 0.6)", "rgba(255, 99, 132, 0.6)", "rgba(75, 192, 192, 0.6)", "rgba(255, 206, 86, 0.6)", "rgba(153, 102, 255, 0.6)"];
+
+    results.forEach((result, index) => {
+      if (result.length === 0) return;
+      let processExecution = result.map(p => ({ x: p.startTime, y: p.burstTime }));
+      labels.push(result[0].algorithm);
+      datasets.push({
+        label: result[0].algorithm,
+        data: processExecution,
+        backgroundColor: colors[index % colors.length],
+        borderWidth: 1,
+      });
+    });
+
+    setChartData({ labels, datasets });
+  };
+
   return (
     <div className="p-4">
       <h1 className="text-3xl font-bold mb-4">CPU Scheduler Simulator</h1>
@@ -78,7 +105,12 @@ export default function Home() {
             </table>
           </div>
         ))}
-    </div>
+      </div>
+      <div className="mt-8">
+        <motion.div animate={{ opacity: [0, 1] }} transition={{ duration: 1 }}>
+          <Bar data={chartData} options={{ responsive: true, scales: { x: { stacked: true }, y: { stacked: true } } }} />
+        </motion.div>
+      </div>
     </div>
   );
 }
